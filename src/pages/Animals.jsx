@@ -1,20 +1,121 @@
 import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  List,
+  ListItem,
+  ListItemText,
+  TextField,
+  Typography,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from '@mui/material';
+import PetsIcon from '@mui/icons-material/Pets';
 
-const initialAnimals = [
-  { id: '1', name: 'Max', species: 'Perro', clientId: '1' },
-  { id: '2', name: 'Luna', species: 'Gato', clientId: '1' },
-  { id: '3', name: 'Rocky', species: 'Perro', clientId: '2' }
-];
+export default function Animals({ animals, clients, addAnimal }) {
+  const [open, setOpen] = useState(false);
+  const [newAnimal, setNewAnimal] = useState({ name: '', species: '', ownerId: '' });
 
-const initialClients = [
-  { id: '1', name: 'María González', email: 'maria@email.com' },
-  { id: '2', name: 'Carlos López', email: 'carlos@email.com' }
-];
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+    setNewAnimal({ name: '', species: '', ownerId: '' });
+  };
 
-export default function Animals() {
-  const [animals, setAnimals] = useState(initialAnimals);
-  const [clients] = useState(initialClients);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNewAnimal((prev) => ({ ...prev, [name]: value }));
+  };
 
-  return <Outlet context={{ animals, setAnimals, clients }} />;
+  const handleAddAnimal = () => {
+    if (
+      newAnimal.name.trim() === '' ||
+      newAnimal.species.trim() === '' ||
+      newAnimal.ownerId === ''
+    )
+      return;
+    addAnimal(newAnimal);
+    handleClose();
+  };
+
+  // Función para obtener nombre del dueño por ownerId
+  const getOwnerName = (ownerId) => {
+    const owner = clients.find((c) => c.id === Number(ownerId));
+    return owner ? owner.name : 'Desconocido';
+  };
+
+  return (
+    <Box sx={{ maxWidth: 600, margin: 'auto', p: 2 }}>
+      <Typography variant="h4" gutterBottom>
+        Lista de Mascotas
+      </Typography>
+      <List>
+        {animals.map((animal) => (
+          <ListItem key={animal.id} divider>
+            <PetsIcon sx={{ mr: 2 }} />
+            <ListItemText
+              primary={`${animal.name} (${animal.species})`}
+              secondary={`Dueño: ${getOwnerName(animal.ownerId)}`}
+            />
+          </ListItem>
+        ))}
+      </List>
+      <Button variant="contained" onClick={handleOpen} sx={{ mt: 2 }}>
+        Agregar Mascota
+      </Button>
+
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Nueva Mascota</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Nombre"
+            name="name"
+            fullWidth
+            variant="standard"
+            value={newAnimal.name}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="dense"
+            label="Especie"
+            name="species"
+            fullWidth
+            variant="standard"
+            value={newAnimal.species}
+            onChange={handleChange}
+          />
+          <FormControl fullWidth margin="dense" variant="standard">
+            <InputLabel id="owner-label">Dueño</InputLabel>
+            <Select
+              labelId="owner-label"
+              name="ownerId"
+              value={newAnimal.ownerId}
+              onChange={handleChange}
+              label="Dueño"
+            >
+              {clients.map((client) => (
+                <MenuItem key={client.id} value={client.id}>
+                  {client.name} (ID: {client.id})
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancelar</Button>
+          <Button onClick={handleAddAnimal} variant="contained">
+            Agregar
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
+  );
 }

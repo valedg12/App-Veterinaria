@@ -1,64 +1,87 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Typography, Box, Stack } from '@mui/material';
-import { useNavigate, useParams } from 'react-router-dom';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Button,
+  Box,
+} from '@mui/material';
 
-export default function ClientForm({ clients, onSave }) {
-  const navigate = useNavigate();
-  const { id } = useParams();
-
-  const editingClient = clients.find(c => c.id === id);
-
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+const ClientForm = ({ open, handleClose, client, onSubmit }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    id: '',
+  });
 
   useEffect(() => {
-    if (editingClient) {
-      setName(editingClient.name);
-      setEmail(editingClient.email);
-    }
-  }, [editingClient]);
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    if (!name.trim() || !email.trim()) {
-      alert('Completa todos los campos');
-      return;
-    }
-    if (editingClient) {
-      onSave({ id: editingClient.id, name, email });
+    if (client) {
+      setFormData(client);
     } else {
-      onSave({ id: Date.now().toString(), name, email });
+      setFormData({ name: '', email: '', id: '' });
     }
-    navigate('/clients');
+  }, [client, open]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = () => {
+    onSubmit(formData);
+    handleClose();
   };
 
   return (
-    <Box sx={{ maxWidth: 400, mx: 'auto', mt: 4 }}>
-      <Typography variant="h5" mb={2}>
-        {editingClient ? 'Editar Cliente' : 'Agregar Cliente'}
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <Stack spacing={2}>
+    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+      <DialogTitle>
+        {client ? 'Editar Cliente' : 'Agregar Nuevo Cliente'}
+      </DialogTitle>
+      <DialogContent>
+        <Box sx={{ pt: 2 }}>
           <TextField
+            fullWidth
             label="Nombre"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            fullWidth
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            margin="normal"
             required
           />
           <TextField
-            label="Email"
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
             fullWidth
+            label="Email"
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            margin="normal"
             required
           />
-          <Button variant="contained" type="submit">
-            {editingClient ? 'Actualizar' : 'Agregar'}
-          </Button>
-        </Stack>
-      </form>
-    </Box>
+          <TextField
+            fullWidth
+            label="ID"
+            name="id"
+            value={formData.id}
+            onChange={handleChange}
+            margin="normal"
+            required
+          />
+        </Box>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>Cancelar</Button>
+        <Button onClick={handleSubmit} variant="contained">
+          {client ? 'Actualizar' : 'Agregar'}
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
-}
+};
+
+export default ClientForm;

@@ -1,81 +1,113 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Typography, Box, Stack, MenuItem } from '@mui/material';
-import { useNavigate, useParams } from 'react-router-dom';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Button,
+  Box,
+  MenuItem,
+} from '@mui/material';
 
-export default function AnimalForm({ animals, clients, onSave }) {
-  const navigate = useNavigate();
-  const { id } = useParams();
-
-  const editingAnimal = animals.find(a => a.id === id);
-
-  const [name, setName] = useState('');
-  const [species, setSpecies] = useState('');
-  const [clientId, setClientId] = useState('');
+const AnimalForm = ({ open, handleClose, animal, clients, onSubmit }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    species: '',
+    age: '',
+    clientId: '',
+  });
 
   useEffect(() => {
-    if (editingAnimal) {
-      setName(editingAnimal.name);
-      setSpecies(editingAnimal.species);
-      setClientId(editingAnimal.clientId);
-    } else if (clients.length > 0) {
-      setClientId(clients[0].id);
-    }
-  }, [editingAnimal, clients]);
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    if (!name.trim() || !species.trim() || !clientId) {
-      alert('Completa todos los campos');
-      return;
-    }
-    if (editingAnimal) {
-      onSave({ id: editingAnimal.id, name, species, clientId });
+    if (animal) {
+      setFormData(animal);
     } else {
-      onSave({ id: Date.now().toString(), name, species, clientId });
+      setFormData({ name: '', species: '', age: '', clientId: '' });
     }
-    navigate('/animals');
+  }, [animal, open]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = () => {
+    onSubmit(formData);
+    handleClose();
   };
 
   return (
-    <Box sx={{ maxWidth: 400, mx: 'auto', mt: 4 }}>
-      <Typography variant="h5" mb={2}>
-        {editingAnimal ? 'Editar Animal' : 'Agregar Animal'}
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <Stack spacing={2}>
+    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+      <DialogTitle>
+        {animal ? 'Editar Mascota' : 'Agregar Nueva Mascota'}
+      </DialogTitle>
+      <DialogContent>
+        <Box sx={{ pt: 2 }}>
           <TextField
+            fullWidth
             label="Nombre"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            fullWidth
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            margin="normal"
             required
           />
           <TextField
-            label="Especie"
-            value={species}
-            onChange={e => setSpecies(e.target.value)}
             fullWidth
-            required
-          />
-          <TextField
             select
-            label="Cliente"
-            value={clientId}
-            onChange={e => setClientId(e.target.value)}
-            fullWidth
+            label="Especie"
+            name="species"
+            value={formData.species}
+            onChange={handleChange}
+            margin="normal"
             required
           >
-            {clients.map(client => (
+            <MenuItem value="Perro">Perro</MenuItem>
+            <MenuItem value="Gato">Gato</MenuItem>
+            <MenuItem value="Conejo">Conejo</MenuItem>
+            <MenuItem value="Pájaro">Pájaro</MenuItem>
+            <MenuItem value="Otro">Otro</MenuItem>
+          </TextField>
+          <TextField
+            fullWidth
+            label="Edad"
+            name="age"
+            type="number"
+            value={formData.age}
+            onChange={handleChange}
+            margin="normal"
+            required
+            inputProps={{ min: 0 }}
+          />
+          <TextField
+            fullWidth
+            select
+            label="Dueño"
+            name="clientId"
+            value={formData.clientId}
+            onChange={handleChange}
+            margin="normal"
+            required
+          >
+            {clients.map((client) => (
               <MenuItem key={client.id} value={client.id}>
-                {client.name}
+                {client.name} ({client.email})
               </MenuItem>
             ))}
           </TextField>
-          <Button variant="contained" type="submit">
-            {editingAnimal ? 'Actualizar' : 'Agregar'}
-          </Button>
-        </Stack>
-      </form>
-    </Box>
+        </Box>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>Cancelar</Button>
+        <Button onClick={handleSubmit} variant="contained">
+          {animal ? 'Actualizar' : 'Agregar'}
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
-}
+};
+
+export default AnimalForm;
