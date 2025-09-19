@@ -1,7 +1,7 @@
 import React from 'react';
-import { List, ListItem, ListItemText,ListItemButton, Typography, Button, Stack } from '@mui/material';
+import { List, ListItem, ListItemText, IconButton, Typography, Button, Stack } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
-import  {Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 export default function ClientsList({ clients, onDelete }) {
   return (

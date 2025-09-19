@@ -3,15 +3,15 @@ import { List, ListItem, ListItemText, IconButton, Typography, Button, Stack } f
 import { Edit, Delete } from '@mui/icons-material';
 import { Link as RouterLink } from 'react-router-dom';
 
-export default function AnimalsList ({ animals, clients, onDelate}) {
-    return (
+export default function AnimalsList({ animals, clients, onDelete }) {
+  return (
     <div style={{ padding: 20 }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-        <Typography variant="h4">Mascotas</Typography>
-        <Button variant="contained" component={RouterLink} to="/pets/new">Agregar Mascota</Button>
+        <Typography variant="h4">Animales</Typography>
+        <Button variant="contained" component={RouterLink} to="/animals/new">Agregar Animal</Button>
       </Stack>
       <List>
-        {animals.map(pet => {
+        {animals.map(animal => {
           const client = clients.find(c => c.id === animal.clientId);
           return (
             <ListItem
