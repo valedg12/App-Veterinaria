@@ -1,5 +1,5 @@
 ## Descripcion 
-Esta es una aplicación web desarrollada con React para la gestión de una veterinaria. Permite administrar clientes (dueños de mascotas) y mascotas, con funcionalidades completas de CRUD (Crear, Leer, Actualizar, Eliminar).
+Esta es una aplicación web desarrollada con React para la gestión de una veterinaria. Permite administrar clientes (dueños de mascotas) y mascotas, con funcionalidades completas de CRUD (Crear, Leer, Actualizar, Eliminar)
 
 Clientes: Agrega, edita y elimina clientes con nombre, teléfono y correo electrónico. Cada cliente tiene un ID único.
 Mascotas: Agrega, edita y elimina mascotas con nombre, especie, raza, edad y asignación de dueño (vinculado por ID del cliente).
