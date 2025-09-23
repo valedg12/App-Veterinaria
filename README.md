@@ -72,14 +72,14 @@ La app inicia con datos simulados:
 ---
 ## Estructura del proyecto
 src/
- ├── components/
- │   └── Navbar.jsx        # Barra de navegación
- ├── pages/
- │   ├── Inicio.jsx        # Página de inicio
- │   ├── Clients.jsx       # Gestión de clientes
- │   └── Animals.jsx       # Gestión de mascotas
- ├── App.jsx               # Componente raíz con estado global y rutas
- └── main.jsx              # Punto de entrada de la app
+├── components/
+│ └── Navbar.jsx # Barra de navegación
+├── pages/
+│ ├── Inicio.jsx # Página de inicio
+│ ├── Clients.jsx # Gestión de clientes
+│ └── Animals.jsx # Gestión de mascotas
+├── App.jsx # Componente raíz con estado global y rutas
+└── main.jsx # Punto de entrada de la app
 
 ## Licencia
 Este proyecto está bajo la licencia **MIT**.  
