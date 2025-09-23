@@ -38,6 +38,8 @@ Ejecuta la aplicacion
 npm run dev
 
 ---
+
+
 ##  Uso
 
 ###  Navegación
@@ -81,5 +83,5 @@ src/
 Este proyecto está bajo la licencia **MIT**.  
 Ver el archivo [LICENSE](LICENSE) para más detalles.  
 
-👩‍💻 **Autor:** Valentina Pugliese De Gaetano  
-📧 **Contacto:** [valentinapugliesedegaetano@gmail.com](mailto:valentinapugliesedegaetano@gmail.com)
+**Autor:** Valentina Pugliese De Gaetano
+**Contacto:** [valentinapugliesedegaetano@gmail.com](mailto:valentinapugliesedegaetano@gmail.com)
