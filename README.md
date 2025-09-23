@@ -71,19 +71,23 @@ La app inicia con datos simulados:
 
 ---
 ## Estructura del proyecto
+
+```plaintext
 src/
 ├── components/
-│ └── Navbar.jsx # Barra de navegación
+│   └── Navbar.jsx     # Barra de navegación
 ├── pages/
-│ ├── Inicio.jsx # Página de inicio
-│ ├── Clients.jsx # Gestión de clientes
-│ └── Animals.jsx # Gestión de mascotas
-├── App.jsx # Componente raíz con estado global y rutas
-└── main.jsx # Punto de entrada de la app
+│   ├── Inicio.jsx     # Página de inicio
+│   ├── Clients.jsx    # Gestión de clientes
+│   └── Animals.jsx    # Gestión de mascotas
+├── App.jsx            # Componente raíz con estado global y rutas
+└── main.jsx           # Punto de entrada de la app
+
+---
 
 ## Licencia
 Este proyecto está bajo la licencia **MIT**.  
 Ver el archivo [LICENSE](LICENSE) para más detalles.  
 
 **Autor:** Valentina Pugliese De Gaetano
-**Contacto:** [valentinapugliesedegaetano@gmail.com](mailto:valentinapugliesedegaetano@gmail.com)
+**Contacto:** [valentinapugliesedegaetano@gmail.com]
