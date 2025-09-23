@@ -30,11 +30,11 @@ git clone https://github.com/valedg12/veterinaria-react-app.git
 cd veterinaria-react-app
 
 Instalar dependencias
-```bash
+
 npm install
 
 Ejecuta la aplicacion
-```bash
+
 npm run dev
 
 ---
