@@ -82,7 +82,7 @@ src/
 │   └── Animals.jsx    # Gestión de mascotas
 ├── App.jsx            # Componente raíz con estado global y rutas
 └── main.jsx           # Punto de entrada de la app
-
+```
 ---
 
 ## Licencia
